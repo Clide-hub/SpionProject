@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SPION Dashboard</title>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff9f;
+            font-family: "Courier New", monospace;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00ff9f;
+            text-shadow: 0 0 10px #00ff9f;
+        }
+
+        .card {
+            background: #111;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #00ff9f;
+            box-shadow: 0 0 10px #00ff9f33;
+        }
+
+        .danger {
+            border-left: 5px solid red;
+            color: #ff4d4d;
+            text-shadow: 0 0 5px red;
+        }
+
+        .safe {
+            border-left: 5px solid lime;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        #risk {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #00ff9f;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🛡️ SPION Intrusion Detection System</h1>
+
+<div id="risk">Risk Level: 0</div>
+
+<div id="events"></div>
+
+<script>
+function loadEvents() {
+    fetch('/api/events')
+    .then(res => res.json())
+    .then(data => {
+        let html = "";
+        let risk = 0;
+
+        data.forEach(event => {
+
+            let type = event[1];
+            let message = event[2];
+            let time = event[3];
+
+            let css = "card";
+
+            if (type === "FAILED_LOGIN") {
+                css += " danger";
+                risk += 2;
+            }
+
+            if (type === "INTRUDER_DETECTED") {
+                css += " danger";
+                risk += 5;
+            }
+
+            if (type === "SUCCESS_LOGIN") {
+                css += " safe";
+                risk = Math.max(0, risk - 1);
+            }
+
+            html += `
+                <div class="${css}">
+                    <strong>[${type}]</strong><br>
+                    ${message}<br>
+                    <span class="timestamp">${time}</span>
+                </div>
+            `;
+        });
+
+        document.getElementById("events").innerHTML = html;
+        document.getElementById("risk").innerText = "Risk Level: " + risk;
+    });
+}
+
+// refresh every 2 seconds
+setInterval(loadEvents, 2000);
+loadEvents();
+</script>
+
+</body>
+</html>
