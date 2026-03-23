@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+*.db
+Safe_folder/
+*.jpg
+*.png
+*.log
+node_modules/
+.env
