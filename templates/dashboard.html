@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SPION Security Dashboard</title>
+    <title>SPION Dashboard</title>
 
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #0a0c10;
+            background: #0b0f14;
             color: #e5e7eb;
+            display: flex;
         }
 
-        /* TOP BAR */
-        .topbar {
+        /* SIDEBAR */
+        .sidebar {
+            width: 120px;
             background: #111827;
-            padding: 12px 20px;
-            border-bottom: 1px solid #1f2937;
+            height: 100vh;
+            padding-top: 20px;
+            border-right: 1px solid #1f2937;
         }
 
-        .title {
-            font-size: 16px;
-            font-weight: bold;
+        .menu {
+            padding: 12px;
+            font-size: 12px;
+            text-align: center;
+            color: #9ca3af;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .menu:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .active {
+            background: #1f2937;
             color: #38bdf8;
         }
 
-        /* SIMPLE GRID */
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 15px;
+        /* MAIN */
+        .main {
+            flex: 1;
+            padding: 20px;
         }
 
-        /* CARDS */
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
         .card {
             background: #111827;
-            padding: 12px;
+            padding: 15px;
+            border-radius: 10px;
             border: 1px solid #1f2937;
-            border-radius: 6px;
         }
 
-        h3 {
-            margin-top: 0;
-            font-size: 13px;
+        .card h3 {
+            font-size: 12px;
             color: #9ca3af;
         }
 
-        /* RISK */
-        .risk {
-            font-size: 24px;
+        .big {
+            font-size: 26px;
             font-weight: bold;
         }
 
@@ -58,68 +84,112 @@
 
         /* EVENTS */
         .event {
-            padding: 8px;
-            margin-bottom: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
             background: #0f172a;
-            border-left: 3px solid #334155;
-            font-size: 12px;
+            border-left: 4px solid #334155;
+            border-radius: 6px;
         }
 
-        .FAILED_LOGIN {
-            border-left-color: #f59e0b;
-        }
-
-        .INTRUDER_DETECTED {
-            border-left-color: #ef4444;
-        }
-
-        .SUCCESS_LOGIN {
-            border-left-color: #22c55e;
-        }
+        .FAILED_LOGIN { border-left-color: #f59e0b; }
+        .INTRUDER_DETECTED { border-left-color: #ef4444; }
+        .SUCCESS_LOGIN { border-left-color: #22c55e; }
 
         .time {
-            font-size: 10px;
+            font-size: 11px;
             opacity: 0.6;
         }
 
-        /* RIGHT ALERT BOX */
-        .alert {
+        /* EXTRA SECTIONS */
+        .section {
+            margin-top: 20px;
+        }
+
+        .image-box img {
+            width: 50%;
+            border-radius: 4px;
+        }
+
+        .alert-box {
             background: #0f172a;
             padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
+            border-radius: 8px;
             border: 1px solid #1f2937;
+            font-size: 12px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="topbar">
-    <div class="title"> SPION Dashboard</div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="menu active">📊 Dashboard</div>
+    <div class="menu">🖥 Site Management</div>
+    <div class="menu">⚙️ Settings</div>
 </div>
 
-<div class="container">
+<!-- MAIN -->
+<div class="main">
 
-    <!-- RISK -->
-    <div class="card">
-        <h3>Risk Level</h3>
-        <div id="risk" class="risk low">LOW</div>
+    <!-- HEADER -->
+    <div class="header">
+        <h2>SPION DASHBOARD</h2>
+        <div>HELLO, ZAIN</div>
     </div>
 
-    <!-- STATUS -->
-    <div class="card">
-        <h3>Status</h3>
-        <div class="alert">
-            Monitoring active...<br>
-            Auth logs: running<br>
-            Camera: standby
+    <!-- TOP STATS -->
+    <div class="grid">
+
+        <div class="card">
+            <h3>Risk Level</h3>
+            <div id="risk" class="big low">LOW</div>
+        </div>
+
+        <div class="card">
+            <h3>Failed Logins</h3>
+            <div id="failed" class="big">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Intrusions</h3>
+            <div id="intrusions" class="big">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Status</h3>
+            <div class="big">ACTIVE</div>
+        </div>
+
+    </div>
+
+    <!-- RISK EXPLANATION -->
+    <div class="section card">
+        <h3>Risk Analysis</h3>
+        <div id="riskReason" class="alert-box">
+            System operating normally.
+        </div>
+    </div>
+
+    <!-- INTRUDER IMAGE -->
+    <div class="section card">
+        <h3>Intruder Capture</h3>
+        <div class="image-box">
+            <img id="intruderImg" src="" alt="No Image Available">
+        </div>
+    </div>
+
+    <!-- SYSTEM RESPONSE -->
+    <div class="section card">
+        <h3>System Response Log</h3>
+        <div id="responses" class="alert-box">
+            No actions taken.
         </div>
     </div>
 
     <!-- EVENTS -->
-    <div class="card" style="grid-column: span 2;">
-        <h3>Events</h3>
+    <div class="section">
+        <h3>Recent Activity</h3>
         <div id="events"></div>
     </div>
 
@@ -131,15 +201,37 @@ function loadData() {
     .then(res => res.json())
     .then(data => {
 
+        // Risk
         document.getElementById("risk").innerText = data.risk;
-        document.getElementById("risk").className = "risk " + data.risk.toLowerCase();
+        document.getElementById("risk").className = "big " + data.risk.toLowerCase();
 
+        let failed = 0;
+        let intrusions = 0;
+        let reasons = [];
+        let responses = [];
         let html = "";
 
         data.events.forEach(e => {
             let type = e[1];
             let msg = e[2];
             let time = e[3];
+
+            if (type === "FAILED_LOGIN") {
+                failed++;
+                reasons.push("Multiple failed login attempts");
+            }
+
+            if (type === "INTRUDER_DETECTED") {
+                intrusions++;
+                reasons.push("Intruder detected via camera");
+                responses.push("Intruder logged out");
+                responses.push("Password reset triggered");
+            }
+
+            if (type === "SUCCESS_LOGIN") {
+                responses.push("Unauthorized login detected");
+                responses.push("User logged out immediately");
+            }
 
             html += `
                 <div class="event ${type}">
@@ -150,11 +242,28 @@ function loadData() {
             `;
         });
 
+        // Update UI
         document.getElementById("events").innerHTML = html;
-    });
+        document.getElementById("failed").innerText = failed;
+        document.getElementById("intrusions").innerText = intrusions;
+
+        document.getElementById("riskReason").innerText =
+            reasons.length ? [...new Set(reasons)].join(", ") : "System operating normally.";
+
+        document.getElementById("responses").innerText =
+            responses.length ? [...new Set(responses)].join(", ") : "No actions taken.";
+
+        if (intrusions > 0) {
+            document.getElementById("intruderImg").src = "/static/intruder.jpg";
+        }
+    })
+    .catch(err => console.error("Error loading data:", err));
 }
 
+// Auto refresh every 2 seconds
 setInterval(loadData, 2000);
+
+// Initial load
 loadData();
 </script>
 
