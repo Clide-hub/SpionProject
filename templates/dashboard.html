@@ -16,27 +16,13 @@
         .sidebar {
             width: 120px;
             background: #111827;
-            height: 200vh;
-            padding-top: 20px;
-            border-right: 1px solid #1f2937;
+            padding: 12px 20px;
+            border-bottom: 1px solid #1f2937;
         }
 
-        .menu {
-            padding: 12px;
-            font-size: 12px;
-            text-align: center;
-            color: #9ca3af;
-            cursor: pointer;
-            margin-bottom: 15px; /* ✅ spacing added */
-        }
-
-        .menu:hover {
-            background: #1f2937;
-            color: white;
-        }
-
-        .active {
-            background: #1f2937;
+        .title {
+            font-size: 16px;
+            font-weight: bold;
             color: #38bdf8;
         }
 
@@ -210,36 +196,15 @@ function loadData() {
         ]
     };
 
-    document.getElementById("risk").innerText = data.risk;
-    document.getElementById("risk").className = "big " + data.risk.toLowerCase();
+        document.getElementById("risk").innerText = data.risk;
+        document.getElementById("risk").className = "risk " + data.risk.toLowerCase();
 
-    let failed = 0;
-    let intrusions = 0;
-    let reasons = [];
-    let responses = [];
-    let html = "";
+        let html = "";
 
-    data.events.forEach(e => {
-        let type = e[1];
-        let msg = e[2];
-        let time = e[3];
-
-        if (type === "FAILED_LOGIN") {
-            failed++;
-            reasons.push("Multiple failed login attempts");
-        }
-
-        if (type === "INTRUDER_DETECTED") {
-            intrusions++;
-            reasons.push("Intruder detected via camera");
-            responses.push("Intruder logged out");
-            responses.push("Password reset triggered");
-        }
-
-        if (type === "SUCCESS_LOGIN") {
-            responses.push("Unauthorized login detected");
-            responses.push("User logged out immediately");
-        }
+        data.events.forEach(e => {
+            let type = e[1];
+            let msg = e[2];
+            let time = e[3];
 
         html += `
             <div class="event ${type}">
@@ -250,21 +215,11 @@ function loadData() {
         `;
     });
 
-    document.getElementById("events").innerHTML = html;
-    document.getElementById("failed").innerText = failed;
-    document.getElementById("intrusions").innerText = intrusions;
+        document.getElementById("events").innerHTML = html;
+    };
 
-    document.getElementById("riskReason").innerText =
-        reasons.length ? [...new Set(reasons)].join(", ") : "System operating normally.";
 
-    document.getElementById("responses").innerText =
-        responses.length ? [...new Set(responses)].join(", ") : "No actions taken.";
-
-    if (intrusions > 0) {
-        document.getElementById("intruderImg").src = "intruder.jpg";
-    }
-}
-
+setInterval(loadData, 2000);
 loadData();
 </script>
 
